@@ -4,14 +4,18 @@
 	<head>
 		<title>Rail Cutting Tool</title>
 		<style>
+			.input {
+				change="getInputRails()"
+			}
 			th {
 			  padding: 20px;
 			}
 		</style>
 	</head>
 
-	<body onLoad="">
+	<body onLoad="docLoad()">
 		<p>This tool is an aide, not a guarantee; the user is responsible for checking the correctness of the results.</p>
+		
 		<hr>
 		<h2>Both Rails</h2>
 		<h3>Rail Pitch <input type="number" id="rail_pitch" style="background-color=#8cd9b3;color:#000000;" value="60"/></h3>
@@ -31,9 +35,9 @@
 					<div style="border-style:inset; padding: 5px 10px">
 						<h3>E1
 							<input type="radio" id="radio_e1_input_minimum" name="radio_e1_input" value="E1_Input_Minimum" checked="checked">
-							<label for="radio_e1_input_minimum" style="font-size:80%">Minimum</label>
+							<label for="radio_e1_input_minimum" style="font-size:80%"><abbr title="Static minimum, or the minimum E-dimension value as defined in the IKO catalogues.">Minimum</abbr></label>
 							<input type="radio" id="radio_e1_input_custom" name="radio_e1_input" value="E1_Input_Custom">
-							<label for="radio_e1_input_custom" style="font-size:80%">Custom</label>
+							<label for="radio_e1_input_custom" style="font-size:80%"><abbr title="Forced end-dimension. /E##">Custom</abbr></label>
 						</h3>
 						<p><input type="number" id="input_e1" style="background-color=#8cd9b3;color:#000000;" value="0"/> mm</p>
 					</div>
@@ -61,9 +65,9 @@
 					<div style="border-style:inset; padding: 5px 10px">
 						<h3>E1
 							<input type="radio" id="radio_e1_output_minimum" name="radio_e1_output" value="E1_Output_Minimum" checked="checked">
-							<label for="radio_e1_output_minimum" style="font-size:80%">Minimum</label>
+							<label for="radio_e1_output_minimum" style="font-size:80%"><abbr title="Static minimum, or the minimum E-dimension value as defined in the IKO catalogues.">Minimum</abbr></label>
 							<input type="radio" id="radio_e1_output_custom" name="radio_e1_output" value="E1_Output_Custom">
-							<label for="radio_e1_output_custom" style="font-size:80%">Custom</label>
+							<label for="radio_e1_output_custom" style="font-size:80%"><abbr title="Forced end-dimension. /E##">Custom</abbr></label>
 						</h3>
 						<p><input type="number" id="output_e1" style="background-color=#8cd9b3;color:#000000;" value="0"/> mm</p>
 					</div>
@@ -146,6 +150,9 @@
 			// Methods  ////////////////////////////////////////////////////////////////
 			
 			toString() {
+			/*
+				Return a template literal printing out the info to help identify this rail properly.
+			*/
 				return `Length: ${String(this.length)}
 					e1: ${String(this.e1)}
 					pitch: ${String(this.pitch)}
@@ -153,20 +160,28 @@
 					# children: ${String(this.rail_children.length)}`;
 			} // End of toString
 			
-			serialize_rails(return_array = []) { // collect all the rails with no rail_children, aka all the pieces left at the end. Return is ordered by the cuts from left to right
+			serialize_rails(return_array = []) {
+			/*
+				collect all the rails with no rail_children, aka all the pieces left at the end. Return is ordered by the cuts from left to right
+			*/
 				if(this.rail_children.length === 0){ return_array.push(this); return return_array; } // if there are no more rail_children, push this rail onto the return array. This happens first so we keep the rails in-order.
 				for(let rail_child in this.rail_children) { this.rail_children[rail_child].serialize_rails(return_array); } // recursive call, handing down the return_array, gathering all the rails with no rail_children.
 				return return_array;
 			} // end of serialize_rails
 			
 			matches(input_rail, full_match = false){
-				//Check to see if the desired rail matches all the parameters of the input rail.
+			/*
+				Check to see if the desired rail matches all the parameters of the input rail.
+			*/
 				return this.length == input_rail.length &&
 					this.pitch == input_rail.pitch &&
 					this.e1 == input_rail.e1;
 			} // End of matches
 			
-			cut_rail(distance_from_left_end_to_cut){ // Return whether the cut was successful.
+			cut_rail(distance_from_left_end_to_cut){
+			/*
+				Create two rail children and attach them to this. rail as children. Return if the cut was successful.
+			*/
 				if(distance_from_left_end_to_cut > this.length) { return false; }
 				this.rail_children.push( 
 					new rail( // First rail starts at the left end and ends at the length of the cut.
@@ -185,7 +200,12 @@
 				return true;
 			} // End of cut_rail
 			
-			render_rail(desired_rails = [], targetElement){ // TODO fix :toptier:
+			render_rail(desired_rails = [], targetElement){
+			/*
+				Create an SVG rendering of this. rail and all its cuts. 
+				desired_rails will determine what childless parts are colored green. 
+				targetElement the element to render the SVG to.
+			*/
 				const svgns = 'http://www.w3.org/2000/svg';
 				let svg_x = 0; // Placeholder value for keeping track of where to put elements.
 				let rail_cut_list = this.serialize_rails();
@@ -230,7 +250,9 @@
 			} // End of method render_rail
 		
 			make_rail(desired_rail){ // Cut the rail as ordered. Return whether the desired rail was able to be made.
-			
+			/*
+				Make the parameter rail from this. rail as close to this. rail's left side as possible.
+			*/
 				// Perform the cuts. If either fails, roll back the rail_children array to exclude any new cuts, since the desired rail isn't possible.
 				if( this.cut_rail( // if the desired rail's e1 is longer than the stock's, have to add a pitch to get the correct cut length.
 						this.e1 - desired_rail.e1 < 0 ? 
@@ -246,7 +268,10 @@
 			
 		} // End of class rail
 
-		function getInputRails(){ // Returns an array of the rails defined by the input text, as [stock, desired]
+		function getInputRails(){
+		/*
+			Return an array of the two rails defined by the input text boxes, [stock rail, desired rail].
+		*/
 			let rail_stock = new rail(
 				+document.getElementById('input_length').value,
 				+document.getElementById('rail_pitch').value,
@@ -275,6 +300,9 @@
 		} // End of getInputRails
 		
 		function checkForErrors(){
+		/*
+			Run a checklist of potential errors with the input and report any that are found.
+		*/
 			let error_check = [
 				[+document.getElementById('rail_pitch').value <= 0, 'Please enter a positive number for the pitch.'],
 				
@@ -291,9 +319,29 @@
 			return error_check.reduce((previousValue, currentValue) => (currentValue[0] == true) ? previousValue + '\n' + currentValue[1] : previousValue,'');
 		} // End of checkForErrors
 		
+		function docLoad(){
+			getInputRails();
+			
+			[document.getElementById('rail_pitch'),
+			
+				document.getElementById('input_length'),
+				document.getElementById('input_e1'),
+				document.getElementById('radio_e1_input_minimum'),
+				document.getElementById('radio_e1_input_custom'),
+				
+				document.getElementById('output_length'),
+				document.getElementById('output_e1'),
+				document.getElementById('radio_e1_output_minimum'),
+				document.getElementById('radio_e1_output_custom')
+			].map(element => element.addEventListener("change", getInputRails));
+			return
+		} // End of docLoad
 		
 		
 		function runPage(){
+		/*
+			Main function
+		*/
 		
 			// If there are any errors, do not run the page.
 			if (checkForErrors() != ''){
@@ -301,8 +349,7 @@
 				return;
 			}
 			
-			let Rails = getInputRails();
-			while(Rails[0].last_rail.make_rail(Rails[1])){} // Perform the maximum number of cuts.
+			let Rails = getInputRails(); // Rails = [Stock rail, desired rail]
 			while(Rails[0].last_rail.make_rail(Rails[1])){} // Perform the maximum number of cuts.
 			Rails[0].render_rail([Rails[1]], document.getElementById('svg_rail_render'));
 			
