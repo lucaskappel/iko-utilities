@@ -15,6 +15,7 @@
 
 	<body onLoad="docLoad()">
 		<p>This tool is an aide, not a guarantee; the user is responsible for checking the correctness of the results.</p>
+		<a target="_blank" href="C:\Users\Lkappel\Desktop\Personal Reference\Catalogs\Quick Reference\E-Dimensions.pdf">IKO E-Dimensions</a>
 		
 		<hr>
 		<h2>Both Rails</h2>
@@ -255,7 +256,7 @@
 			*/
 				// Perform the cuts. If either fails, roll back the rail_children array to exclude any new cuts, since the desired rail isn't possible.
 				if( this.cut_rail( // if the desired rail's e1 is longer than the stock's, have to add a pitch to get the correct cut length.
-						this.e1 - desired_rail.e1 < 0 ? 
+						this.e1 - desired_rail.e1 <= 0 ? 
 						this.e1 - desired_rail.e1 + this.pitch : 
 						this.e1 - desired_rail.e1)){
 						
