@@ -3,361 +3,343 @@
 
 	<head>
 		<title>Rail Cutting Tool</title>
-		<style>
-			.input {
-				change="getInputRails()"
-			}
-			th {
-			  padding: 20px;
-			}
-		</style>
 	</head>
 
 	<body onLoad="docLoad()">
 		<p>This tool is an aide, not a guarantee; the user is responsible for checking the correctness of the results.</p>
-		<a target="_blank" href="C:\Users\Lkappel\Desktop\Personal Reference\Catalogs\Quick Reference\E-Dimensions.pdf">IKO E-Dimensions</a>
 		
 		<hr>
+		
 		<h2>Both Rails</h2>
-		<h3>Rail Pitch <input type="number" id="rail_pitch" style="background-color=#8cd9b3;color:#000000;" value="60"/></h3>
-		
-		<hr>
-		<h2>Stock Rail</h2>
 		<table>
 			<tr>
+				<th>Rail Pitch (F)</th>
 				<th>
-					<div style="border-style:inset; padding: 5px 10px">
-						<h3>Length</h3>
-						<p><input type="number" id="input_length" style="background-color=#8cd9b3;color:#000000;" value="600"/> mm</p>
-					</div>
+					<p>STD E-Dimension</p>
+					<p>(put catalog&#39;s &#34;or higher&#34; value)</p>
 				</th>
-				<th align="left" style="padding:10px">
-					
-					<div style="border-style:inset; padding: 5px 10px">
-						<h3>E1
-							<input type="radio" id="radio_e1_input_minimum" name="radio_e1_input" value="E1_Input_Minimum" checked="checked">
-							<label for="radio_e1_input_minimum" style="font-size:80%"><abbr title="Static minimum, or the minimum E-dimension value as defined in the IKO catalogues.">Minimum</abbr></label>
-							<input type="radio" id="radio_e1_input_custom" name="radio_e1_input" value="E1_Input_Custom">
-							<label for="radio_e1_input_custom" style="font-size:80%"><abbr title="Forced end-dimension. /E##">Custom</abbr></label>
-						</h3>
-						<p><input type="number" id="input_e1" style="background-color=#8cd9b3;color:#000000;" value="0"/> mm</p>
-					</div>
-				</th>
-				<th align="left">
-					<pre id="e1_input_result" style="font-size:1.5em"></pre> 	
-				</th>
+				<th><a target="_blank" href="E-Dimensions.pdf">Standard Rail Dimensions</a></th>
 			</tr>
 			<tr>
-				<svg xmlns="http://www.w3.org/2000/svg" id="svg_rail_input" height="50" width="100%"/>
+				<th><input type="number" id="rail_pitch" value="60"></th>
+				<th><input type="number" id="rail_e1" value="0"></th>
+				<th></th>
 			</tr>
 		</table>
 		
 		<hr>
-		<h2>Product Rail</h2>
+		
+		<h2>Stock Rail</h2>
 		<table>
 			<tr>
-				<th align="left" style="padding:10px">
+				<th style="padding:10px">
 					<div style="border-style:inset; padding: 5px 10px">
-						<h3>Length</h3>
-						<p><input type="number" id="output_length" style="background-color=#8cd9b3;color:#000000;" value="200"/> mm</p>
+						<p>Length</p>
+						<p><input type="number" id="input_length" value="600"> mm</p>
+					</div>
+				</th>
+				<th style="padding:10px">
+					<div style="border-style:inset; padding: 5px 10px">
+						<p>
+						    /E or /E-SPL?
+							<input type="checkbox" id="checkbox_e1_input" name="checkbox_e1_input" value="E1_Input">
+						</p>
+						<p><input type="number" id="input_e1" value="0"> mm</p>
 					</div>
 				</th>
 				<th>
+					<pre id="e1_input_result" style="font-size:1.5em"></pre> 	
+				</th>
+			</tr>
+		</table>
+		<svg xmlns="http://www.w3.org/2000/svg" id="svg_rail_input" height="50" width="100%"/>
+		
+		<hr>
+		
+		<h2>Product Rail</h2>
+		<table>
+			<tr>
+				<th style="padding:10px">
 					<div style="border-style:inset; padding: 5px 10px">
-						<h3>E1
-							<input type="radio" id="radio_e1_output_minimum" name="radio_e1_output" value="E1_Output_Minimum" checked="checked">
-							<label for="radio_e1_output_minimum" style="font-size:80%"><abbr title="Static minimum, or the minimum E-dimension value as defined in the IKO catalogues.">Minimum</abbr></label>
-							<input type="radio" id="radio_e1_output_custom" name="radio_e1_output" value="E1_Output_Custom">
-							<label for="radio_e1_output_custom" style="font-size:80%"><abbr title="Forced end-dimension. /E##">Custom</abbr></label>
-						</h3>
-						<p><input type="number" id="output_e1" style="background-color=#8cd9b3;color:#000000;" value="0"/> mm</p>
+						<p>Length</p>
+						<p><input type="number" id="output_length" value="240"> mm</p>
 					</div>
 				</th>
-				<th align="left">
+				<th style="padding:10px">
+					<div style="border-style:inset; padding: 5px 10px">
+						<p>
+						    /E or /E-SPL?
+							<input type="checkbox" id="checkbox_e1_output" name="checkbox_e1_output" value="E1_Output">
+						</p>
+						<p><input type="number" id="output_e1" value="0"> mm</p>
+					</div>
+				</th>
+				<th>
 					<pre id="e1_output_result" style="font-size:1.5em"></pre>
 				</th>
 			</tr>
-			<tr>
-				<svg xmlns="http://www.w3.org/2000/svg" id="svg_rail_output" height="50" width="100%"/>
-			</tr>
-		<table>
+		</table>
+		<svg xmlns="http://www.w3.org/2000/svg" id="svg_rail_output" height="50" width="100%"/>
 		
 		<hr>
+		
 		<h2>Result</h2>
-		<button id="button_calculator" onclick="runPage()">Run</button>
 		<pre id="output_final"></pre>
 		<hr>
 		<svg xmlns="http://www.w3.org/2000/svg" id="svg_rail_render" height="50" width="100%"/>
-		<hr>
-	</body>
-
-	<script>
-		/*
-		let elementMap = {
-			pitch = document.getElementById('rail_pitch'),
-			
-			in_l = document.getElementById('input_length'),
-			in_e = document.getElementById('input_e1'),
-			in_ermin = document.getElementById('radio_e1_input_minimum'),
-			in_ercus = document.getElementById('radio_e1_input_custom'),
-			in_svg = document.getElementById('svg_rail_input'),
-			in_eres = document.getElementById('e1_input_result'),
-			
-			out_l = document.getElementById('output_length'),
-			out_e = document.getElementById('output_e1'),
-			out_ermin = document.getElementById('radio_e1_output_minimum'),
-			out_ercus = document.getElementById('radio_e1_output_custom'),
-			out_svg = document.getElementById('svg_rail_output'),
-			out_eres = document.getElementById('e1_output_result'),
-			
-			cbut = document.getElementById('button_calculator'),
-			fsvg = document.getElementById('svg_rail_render'),
-			fout = document.getElementById('output_final')
-		}
-		*/
 		
-		class rail{
-			
-			// Constructor and Attributes  ////////////////////////////////////////////////////////////////
-			
-			constructor(length, pitch, optional_arguments){
-				/*
-					Constructor for a generic rail.
-						length - Required - Total length of the rail
-						pitch - Required - Spacing between rail mounting hole centers
-						e1 - Optional - The distance from the left end of the rail to the center of its first mounting hole. Default is ((length % pitch)/2).
-						e_minimum - Optional - Defualt 0, the e1 dimension can never be less than this. If the e1 dimension is less than this, half the pitch will be added to e1 to make it larger.
-						rail_children - Optional - Default [], the rails that have been made by cutting this rail.
-						
-						let newrail = new rail(1000, 60, {"e1":22, "e_minimum":12});
-				*/
-				this.length = length;
-				this.pitch = pitch;
-				
-				this.e_minimum = 0;
-				if ('e_minimum' in optional_arguments) { this.e_minimum = optional_arguments['e_minimum']; }
-				
-				// If the calculated e1 is less than the e_minimum, must add a half-pitch to make it more than the minimum (this is how the UI900 does it).
-				this.e1 = ((length % pitch) / 2 ) < this.e_minimum || ((length % pitch) / 2 ) == 0? ((length % pitch) / 2 ) + this.pitch / 2 : ((length % pitch) / 2 );
-				if ('e1' in optional_arguments) { this.e1 = optional_arguments['e1']; } // Custom e-dim overrides the e_minimum
-				
-				this.rail_children = [];
-				if ('rail_children' in optional_arguments) { this.rail_children = optional_arguments['rail_children']; }
-			} // End of constructor
+		<hr>
+	
+		<script>
+			class rail{
 
-			get e2(){ return (this.length - this.e1)%this.pitch; } // Rail is fully defined by e1 and length, e2 is derivative. 
-			get last_rail() { return this.rail_children.length == 0 ? this : this.rail_children[this.rail_children.length - 1].last_rail; } // Select the end rail until one is found without children.
-			
-			// Methods  ////////////////////////////////////////////////////////////////
-			
-			toString() {
-			/*
-				Return a template literal printing out the info to help identify this rail properly.
-			*/
-				return `Length: ${String(this.length)}
-					e1: ${String(this.e1)}
-					pitch: ${String(this.pitch)}
-					e1_minimum: ${String(this.e1_minimum)}
-					# children: ${String(this.rail_children.length)}`;
-			} // End of toString
-			
-			serialize_rails(return_array = []) {
-			/*
-				collect all the rails with no rail_children, aka all the pieces left at the end. Return is ordered by the cuts from left to right
-			*/
-				if(this.rail_children.length === 0){ return_array.push(this); return return_array; } // if there are no more rail_children, push this rail onto the return array. This happens first so we keep the rails in-order.
-				for(let rail_child in this.rail_children) { this.rail_children[rail_child].serialize_rails(return_array); } // recursive call, handing down the return_array, gathering all the rails with no rail_children.
-				return return_array;
-			} // end of serialize_rails
-			
-			matches(input_rail, full_match = false){
-			/*
-				Check to see if the desired rail matches all the parameters of the input rail.
-			*/
-				return this.length == input_rail.length &&
-					this.pitch == input_rail.pitch &&
-					this.e1 == input_rail.e1;
-			} // End of matches
-			
-			cut_rail(distance_from_left_end_to_cut){
-			/*
-				Create two rail children and attach them to this. rail as children. Return if the cut was successful.
-			*/
-				if(distance_from_left_end_to_cut > this.length) { return false; }
-				this.rail_children.push( 
-					new rail( // First rail starts at the left end and ends at the length of the cut.
-						distance_from_left_end_to_cut, // left rail length will always be what is cut off
-						this.pitch, // Pitch must always match
-						{'e1':Math.min(this.e1, distance_from_left_end_to_cut)} // e1 of the left rail is just the base's e1 if the cut goes past the first hole. 
-					)
-				);
-				this.rail_children.push( 
-					new rail( // Second rail starts at the length of the cut, and ends at the other end of the rail.
-						this.length - distance_from_left_end_to_cut, // length is always the original length minus the cut length
-						this.pitch, // Pitch must always match
-						{'e1':Math.min(this.length - distance_from_left_end_to_cut, (this.length - distance_from_left_end_to_cut - this.e2)%this.pitch)} // if the cut makes a shorter second rail than the original e2, then e2 is just that length, otherwise, just the original e2
-					)
-				);
-				return true;
-			} // End of cut_rail
-			
-			render_rail(desired_rails = [], targetElement){
-			/*
-				Create an SVG rendering of this. rail and all its cuts. 
-				desired_rails will determine what childless parts are colored green. 
-				targetElement the element to render the SVG to.
-			*/
-				const svgns = 'http://www.w3.org/2000/svg';
-				let svg_x = 0; // Placeholder value for keeping track of where to put elements.
-				let rail_cut_list = this.serialize_rails();
-				targetElement.setAttribute('width', this.length);
+				// Constructor and Attributes  ////////////////////////////////////////////////////////////////
 				
-				for(let rail_piece in rail_cut_list){
-				
-					// Create the new rectangle and apply all the parameters to correctly place and define it.
-					let newRectangle = document.createElementNS(svgns, 'rect');
+				constructor(length, pitch, optional_arguments){
+					/*
+						Constructor for a generic rail.
+							length - Required - Total length of the rail
+							pitch - Required - Spacing between rail mounting hole centers
+							e1 - Optional - The distance from the left end of the rail to the center of its first mounting hole. Default is ((length % pitch)/2).
+							e_minimum - Optional - Defualt 0, the e1 dimension can never be less than this. If the e1 dimension is less than this, half the pitch will be added to e1 to make it larger.
+							rail_children - Optional - Default [], the rails that have been made by cutting this rail.
+							
+							let newrail = new rail(1000, 60, {"e1":22, "e_minimum":12});
+					*/
+					this.length = length;
+					this.pitch = pitch;
 					
-					// Check to see if the rail piece is a desired rail. fill=green if yes, red if no
-					let fillStyle = 'fill: red;';
-					for(let desired_piece in desired_rails){
-						if(rail_cut_list[rail_piece].matches(desired_rails[desired_piece])){ fillStyle = 'fill: green;'; }
+					this.e_minimum = 0;
+					if ('e_minimum' in optional_arguments) { this.e_minimum = optional_arguments['e_minimum']; }
+					
+					// If the calculated e1 is less than the e_minimum, must add a half-pitch to make it more than the minimum (this is how the UI900 does it).
+					this.e1 = ((length % pitch) / 2 ) < this.e_minimum || ((length % pitch) / 2 ) == 0? ((length % pitch) / 2 ) + this.pitch / 2 : ((length % pitch) / 2 );
+					if ('e1' in optional_arguments) { this.e1 = optional_arguments['e1']; } // Custom e-dim overrides the e_minimum
+					
+					this.rail_children = [];
+					if ('rail_children' in optional_arguments) { this.rail_children = optional_arguments['rail_children']; }
+				} // End of constructor
+
+				get e2(){ return (this.length - this.e1)%this.pitch; } // Rail is fully defined by e1 and length, e2 is derivative. 
+				get last_rail() { return this.rail_children.length == 0 ? this : this.rail_children[this.rail_children.length - 1].last_rail; } // Select the end rail until one is found without children.
+				
+				// Methods  ////////////////////////////////////////////////////////////////
+				
+				toString() {
+				/*
+					Return a template literal printing out the info to help identify this rail properly.
+				*/
+					return `Length: ${String(this.length)}
+						e1: ${String(this.e1)}
+						pitch: ${String(this.pitch)}
+						e1_minimum: ${String(this.e1_minimum)}
+						# children: ${String(this.rail_children.length)}`;
+				} // End of toString
+				
+				serialize_rails(return_array = []) {
+				/*
+					collect all the rails with no rail_children, aka all the pieces left at the end. Return is ordered by the cuts from left to right
+				*/
+					if(this.rail_children.length === 0){ return_array.push(this); return return_array; } // if there are no more rail_children, push this rail onto the return array. This happens first so we keep the rails in-order.
+					for(let rail_child in this.rail_children) { this.rail_children[rail_child].serialize_rails(return_array); } // recursive call, handing down the return_array, gathering all the rails with no rail_children.
+					return return_array;
+				} // end of serialize_rails
+				
+				matches(input_rail, full_match = false){
+				/*
+					Check to see if the desired rail matches all the parameters of the input rail.
+				*/
+					return this.length == input_rail.length &&
+						this.pitch == input_rail.pitch &&
+						this.e1 == input_rail.e1;
+				} // End of matches
+				
+				cut_rail(distance_from_left_end_to_cut){
+				/*
+					Create two rail children and attach them to this. rail as children. Return if the cut was successful.
+				*/
+					if(distance_from_left_end_to_cut > this.length) { return false; }
+					this.rail_children.push( 
+						new rail( // First rail starts at the left end and ends at the length of the cut.
+							distance_from_left_end_to_cut, // left rail length will always be what is cut off
+							this.pitch, // Pitch must always match
+							{'e1':Math.min(this.e1, distance_from_left_end_to_cut)} // e1 of the left rail is just the base's e1 if the cut goes past the first hole. 
+						)
+					);
+					this.rail_children.push( 
+						new rail( // Second rail starts at the length of the cut, and ends at the other end of the rail.
+							this.length - distance_from_left_end_to_cut, // length is always the original length minus the cut length
+							this.pitch, // Pitch must always match
+							{'e1':Math.min(this.length - distance_from_left_end_to_cut, (this.length - distance_from_left_end_to_cut - this.e2)%this.pitch)} // if the cut makes a shorter second rail than the original e2, then e2 is just that length, otherwise, just the original e2
+						)
+					);
+					return true;
+				} // End of cut_rail
+				
+				render_rail(desired_rails = [], targetElement){
+				/*
+					Create an SVG rendering of this. rail and all its cuts. 
+					desired_rails will determine what childless parts are colored green. 
+					targetElement the element to render the SVG to.
+				*/
+					const svgns = 'http://www.w3.org/2000/svg';
+					let svg_x = 0; // Placeholder value for keeping track of where to put elements.
+					let rail_cut_list = this.serialize_rails();
+					targetElement.setAttribute('width', this.length);
+					
+					for(let rail_piece in rail_cut_list){
+					
+						// Create the new rectangle and apply all the parameters to correctly place and define it.
+						let newRectangle = document.createElementNS(svgns, 'rect');
+						
+						// Check to see if the rail piece is a desired rail. fill=green if yes, red if no
+						let fillStyle = 'fill: red;';
+						for(let desired_piece in desired_rails){
+							if(rail_cut_list[rail_piece].matches(desired_rails[desired_piece])){ fillStyle = 'fill: green;'; }
+						}
+						
+						newRectangle.setAttribute('style', fillStyle);
+						newRectangle.setAttribute('x', svg_x);
+						newRectangle.setAttribute('y', 0);
+						newRectangle.setAttribute('width', rail_cut_list[rail_piece].length);
+						newRectangle.setAttribute('height', targetElement.getBoundingClientRect().height);
+						targetElement.appendChild(newRectangle);
+						
+						// Set the starting point to be the end of the current rail.
+						svg_x += rail_cut_list[rail_piece].length;
 					}
 					
-					newRectangle.setAttribute('style', fillStyle);
-					newRectangle.setAttribute('x', svg_x);
-					newRectangle.setAttribute('y', 0);
-					newRectangle.setAttribute('width', rail_cut_list[rail_piece].length);
-					newRectangle.setAttribute('height', targetElement.getBoundingClientRect().height);
-					targetElement.appendChild(newRectangle);
+					//Add the pitch holes
+					while( svg_x >= 0 ){ 
 					
-					// Set the starting point to be the end of the current rail.
-					svg_x += rail_cut_list[rail_piece].length;
-				}
-				
-				//Add the pitch holes
-				while( svg_x >= 0 ){ 
-				
-					// Create the circle and apply the parameters to correctly place and define it.
-					let newCircle = document.createElementNS(svgns, "circle");
-					newCircle.setAttribute('style', 'fill: black;');
-					newCircle.setAttribute('cx', svg_x - this.e2);
-					newCircle.setAttribute('cy', 0.5*targetElement.getBoundingClientRect().height);
-					newCircle.setAttribute('r', 0.15*targetElement.getBoundingClientRect().height);
-					targetElement.appendChild(newCircle);
-					
-					// decrement the length by the pitch each time
-					svg_x += -1*this.pitch;
-				}
-			} // End of method render_rail
-		
-			make_rail(desired_rail){ // Cut the rail as ordered. Return whether the desired rail was able to be made.
-			/*
-				Make the parameter rail from this. rail as close to this. rail's left side as possible.
-			*/
-				// Perform the cuts. If either fails, roll back the rail_children array to exclude any new cuts, since the desired rail isn't possible.
-				if( this.cut_rail( // if the desired rail's e1 is longer than the stock's, have to add a pitch to get the correct cut length.
-						this.e1 - desired_rail.e1 <= 0 ? 
-						this.e1 - desired_rail.e1 + this.pitch : 
-						this.e1 - desired_rail.e1)){
+						// Create the circle and apply the parameters to correctly place and define it.
+						let newCircle = document.createElementNS(svgns, "circle");
+						newCircle.setAttribute('style', 'fill: black;');
+						newCircle.setAttribute('cx', svg_x - this.e2);
+						newCircle.setAttribute('cy', 0.5*targetElement.getBoundingClientRect().height);
+						newCircle.setAttribute('r', 0.15*targetElement.getBoundingClientRect().height);
+						targetElement.appendChild(newCircle);
 						
-					// Roll back the rail_children array if the cut cannot be completed.
-					if(!this.rail_children[1].cut_rail(desired_rail.length)){ this.rail_children = []; return false;}
-					
-				} else { return false; }
-				return true;
-			} // End of method make_rail
+						// decrement the length by the pitch each time
+						svg_x += -1*this.pitch;
+					}
+				} // End of method render_rail
 			
-		} // End of class rail
+				make_rail(desired_rail){ // Cut the rail as ordered. Return whether the desired rail was able to be made.
+				/*
+					Make the parameter rail from this. rail as close to this. rail's left side as possible.
+				*/
+					// Perform the cuts. If either fails, roll back the rail_children array to exclude any new cuts, since the desired rail isn't possible.
+					if( this.cut_rail( // First cut, on the left side.. If the required e1 is smaller than the stock e1, add a rail pitch to the cut to make up that difference.
+							this.e1 - desired_rail.e1 < 0 ? 
+							this.e1 - desired_rail.e1 + this.pitch : 
+							this.e1 - desired_rail.e1)){
+							
+						// Second cut, on the right side.
+						if(!this.last_rail.cut_rail(desired_rail.length)){ this.rail_children = []; return false;}
+						
+						// Third cut. ~2mm of the last rail will be lost so pretend like we make an extra 2mm cut.
+						this.last_rail.cut_rail(Math.min(2, this.last_rail.length));
+						
+					} else { return false; }
+					return true;
+				} // End of method make_rail
+				
+			} // End of class rail
 
-		function getInputRails(){
-		/*
-			Return an array of the two rails defined by the input text boxes, [stock rail, desired rail].
-		*/
-			let rail_stock = new rail(
-				+document.getElementById('input_length').value,
-				+document.getElementById('rail_pitch').value,
+			function getInputRails(){
+			/*
+				Return an array of the two rails defined by the input text boxes, [stock rail, desired rail].
+			*/
+				let rail_stock = new rail(
+					+document.getElementById('input_length').value,
+					+document.getElementById('rail_pitch').value,
+					
+					// If the custom input is checked, then use the e1 input as the e1 dimension, otherwise use it as the minimum dimension.
+					document.getElementById('checkbox_e1_input').checked ?
+						{ 'e1' : +document.getElementById('input_e1').value } :
+						{ 'e_minimum' : +document.getElementById('rail_e1').value }
+				);
+				rail_stock.render_rail([rail_stock], document.getElementById('svg_rail_input'));
+				document.getElementById('e1_input_result').innerHTML = `Resultant e-dimension is:\n${rail_stock.e1} mm`;
 				
-				// If the custom input is checked, then use the e1 input as the e1 dimension, otherwise use it as the minimum dimension.
-				document.getElementById('radio_e1_input_custom').checked ?
-					{ 'e1' : +document.getElementById('input_e1').value } :
-					{ 'e_minimum' : +document.getElementById('input_e1').value }
-			);
-			rail_stock.render_rail([rail_stock], document.getElementById('svg_rail_input'));
-			document.getElementById('e1_input_result').innerHTML = `Resultant e-dimension is:\n${rail_stock.e1} mm`;
-			
-			let rail_desired = new rail(
-				+document.getElementById('output_length').value,
-				+document.getElementById('rail_pitch').value,
+				let rail_desired = new rail(
+					+document.getElementById('output_length').value,
+					+document.getElementById('rail_pitch').value,
+					
+					// If the custom output is checked, then use the e1 input as the e1 dimension, otherwise use it as the minimum dimension.
+					document.getElementById('checkbox_e1_output').checked ?
+						{ 'e1' : +document.getElementById('output_e1').value } :
+						{ 'e_minimum' : +document.getElementById('rail_e1').value }
+				);
+				rail_desired.render_rail([rail_desired], document.getElementById('svg_rail_output'));
+				document.getElementById('e1_output_result').innerHTML = `Resultant e-dimension is:\n${rail_desired.e1} mm`;
 				
-				// If the custom output is checked, then use the e1 input as the e1 dimension, otherwise use it as the minimum dimension.
-				document.getElementById('radio_e1_output_custom').checked ?
-					{ 'e1' : +document.getElementById('output_e1').value } :
-					{ 'e_minimum' : +document.getElementById('output_e1').value }
-			);
-			rail_desired.render_rail([rail_desired], document.getElementById('svg_rail_output'));
-			document.getElementById('e1_output_result').innerHTML = `Resultant e-dimension is:\n${rail_desired.e1} mm`;
+				return [rail_stock, rail_desired];
+			} // End of getInputRails
 			
-			return [rail_stock, rail_desired];
-		} // End of getInputRails
-		
-		function checkForErrors(){
-		/*
-			Run a checklist of potential errors with the input and report any that are found.
-		*/
-			let error_check = [
-				[+document.getElementById('rail_pitch').value <= 0, 'Please enter a positive number for the pitch.'],
+			function checkForErrors(){
+			/*
+				Run a checklist of potential errors with the input and report any that are found.
+			*/
+				let error_check = [
+					[+document.getElementById('rail_pitch').value <= 0, 'Please enter a positive number for the pitch.'],
+					
+					[+document.getElementById('input_length').value <= 0, 'Please enter a positive number for the input rail length.'],
+					[+document.getElementById('input_e1').value < 0, 'Please enter a positive number for the input rail E1.'],
+					[+document.getElementById('input_e1').value >= +document.getElementById('rail_pitch').value, 'End-dimension of the input rail cannot exceed the pitch.'],
+					
+					[+document.getElementById('output_length').value <= 0, 'Please enter a positive number for the output rail length.'],
+					[+document.getElementById('output_e1').value < 0, 'Please enter a positive number for the pitch output rail E1.'],
+					[+document.getElementById('output_e1').value >= +document.getElementById('rail_pitch').value, 'End-dimension of the output rail cannot exceed the pitch.'],
+					
+					[+document.getElementById('input_length') < +document.getElementById('output_length').value, 'Input rail length must be at least as long as the output rail length.'],
+				];
+				return error_check.reduce((previousValue, currentValue) => (currentValue[0] == true) ? previousValue + '\n' + currentValue[1] : previousValue,'');
+			} // End of checkForErrors
+			
+			function docLoad(){
+				getInputRails();
 				
-				[+document.getElementById('input_length').value <= 0, 'Please enter a positive number for the input rail length.'],
-				[+document.getElementById('input_e1').value < 0, 'Please enter a positive number for the input rail E1.'],
-				[+document.getElementById('input_e1').value >= +document.getElementById('rail_pitch').value, 'End-dimension of the input rail cannot exceed the pitch.'],
+				[
+					document.getElementById('rail_pitch'),
+					document.getElementById('rail_e1'),
+					
+					document.getElementById('input_length'),
+					document.getElementById('input_e1'),
+					document.getElementById('checkbox_e1_input'),
+					
+					document.getElementById('output_length'),
+					document.getElementById('output_e1'),
+					document.getElementById('checkbox_e1_output')
+				].map(element => element.addEventListener("change", runPage));
 				
-				[+document.getElementById('output_length').value <= 0, 'Please enter a positive number for the output rail length.'],
-				[+document.getElementById('output_e1').value < 0, 'Please enter a positive number for the pitch output rail E1.'],
-				[+document.getElementById('output_e1').value >= +document.getElementById('rail_pitch').value, 'End-dimension of the output rail cannot exceed the pitch.'],
+				runPage()
 				
-				[+document.getElementById('input_length') < +document.getElementById('output_length').value, 'Input rail length must be at least as long as the output rail length.'],
-			];
-			return error_check.reduce((previousValue, currentValue) => (currentValue[0] == true) ? previousValue + '\n' + currentValue[1] : previousValue,'');
-		} // End of checkForErrors
-		
-		function docLoad(){
-			getInputRails();
+				return
+			} // End of docLoad
 			
-			[document.getElementById('rail_pitch'),
 			
-				document.getElementById('input_length'),
-				document.getElementById('input_e1'),
-				document.getElementById('radio_e1_input_minimum'),
-				document.getElementById('radio_e1_input_custom'),
+			function runPage(){
+			/*
+				Main function
+			*/
+			
+				// If there are any errors, do not run the page.
+				if (checkForErrors() != ''){
+					document.getElementById('output_final').innerHTML = `Error: ${checkForErrors()}`;
+					return;
+				}
 				
-				document.getElementById('output_length'),
-				document.getElementById('output_e1'),
-				document.getElementById('radio_e1_output_minimum'),
-				document.getElementById('radio_e1_output_custom')
-			].map(element => element.addEventListener("change", getInputRails));
-			return
-		} // End of docLoad
-		
-		
-		function runPage(){
-		/*
-			Main function
-		*/
-		
-			// If there are any errors, do not run the page.
-			if (checkForErrors() != ''){
-				document.getElementById('output_final').innerHTML = `Error: ${checkForErrors()}`;
-				return;
-			}
-			
-			let Rails = getInputRails(); // Rails = [Stock rail, desired rail]
-			while(Rails[0].last_rail.make_rail(Rails[1])){} // Perform the maximum number of cuts.
-			Rails[0].render_rail([Rails[1]], document.getElementById('svg_rail_render'));
-			
-			let output_cuts = Rails[0].serialize_rails().reduce((previousValue, currentValue) =>  currentValue.matches(Rails[1]) ? previousValue += 1 : previousValue += 0, 0);
-			let output_waste = Rails[0].serialize_rails().reduce((previousValue, currentValue) => currentValue.matches(Rails[1]) ? previousValue += 0 : previousValue += currentValue.length, 0);
-			document.getElementById('output_final').innerHTML = `Made ${output_cuts} total output rails, leaving ${output_waste} mm of waste.`;
-			
-		} // End of runPage
-	</script>
+				let Rails = getInputRails(); // Rails = [Stock rail, desired rail]
+				while(Rails[0].last_rail.make_rail(Rails[1])){} // Perform the maximum number of cuts.
+				Rails[0].render_rail([Rails[1]], document.getElementById('svg_rail_render'));
+				
+				let output_cuts = Rails[0].serialize_rails().reduce((previousValue, currentValue) =>  currentValue.matches(Rails[1]) ? previousValue += 1 : previousValue += 0, 0);
+				let output_waste = Rails[0].serialize_rails().reduce((previousValue, currentValue) => currentValue.matches(Rails[1]) ? previousValue += 0 : previousValue += currentValue.length, 0);
+				document.getElementById('output_final').innerHTML = `Made ${output_cuts} total output rails, leaving ${output_waste} mm of waste.`;
+				
+			} // End of runPage
+		</script>
+	</body>
 </html>
