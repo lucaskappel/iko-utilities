@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<title>GE Life Estimation</title>
+	</head>
+
+	<body onLoad="onDocumentLoad()">
+	
+		<a href="resources/GE_Catalogue.pdf" target="_blank">Click here to obtain bushing section of catalogue.</a>
+	
+		<section id="section_input">
+		
+			<h2>Application Information</h2>
+	
+			<h4>Selectable Bushing Parameters</h4>
+			<table id="parameter_selectable">
+				<tr><td>Bushing Type:</td>
+					<td>
+						<input type="radio" id="radio_BushingType_steel" name="radio_BushingType" value="Steel-on-Steel">
+						<label for="radio_BushingType_steel">Steel-on-Steel</label>
+						<input type="radio" id="radio_BushingType_maint" name="radio_BushingType" value="Maintenance-Free" checked>
+						<label for="radio_BushingType_maint">Maintenance-Free</label>
+					</td>
+				</tr>
+				
+				<tr><td>Load Direction:</td>
+					<td>
+						<input type="radio" id="radio_LoadDirection_constant" name="radio_LoadDirection" value="Constant">
+						<label for="radio_LoadDirection_constant">Constant</label>
+						<input type="radio" id="radio_LoadDirection_alternate" name="radio_LoadDirection" value="Alternate" checked>
+						<label for="radio_LoadDirection_alternate">Alternate</label>
+					</td>
+				</tr>
+				
+				<tr><td>Lubrication:</td>
+					<td>
+						<input type="radio" id="radio_Lubrication_regular" name="radio_Lubrication" value="Regular" checked>
+						<label for="radio_Lubrication_regular">Regular</label>
+						<input type="radio" id="radio_Lubrication_none" name="radio_Lubrication" value="None">
+						<label for="radio_Lubrication_none">None</label>
+					</td>
+				</tr>
+				
+				<tr><td>Is sealed (2RS):</td>
+					<td><input type="checkbox" id="checkbox_Seals" name="checkbox_Seals"></td>
+				</tr>
+			</table id="parameter_selectable">
+			
+			<br>
+
+			<h4>Numerical Bushing Parameters</h4>
+			<table id="parameter_numerical">
+				<tr>
+					<th>Parameter</th>
+					<th>Value</th>
+					<th>Units</th>
+				</tr>
+				
+				<tr><td>Dynamic Load Capacity</td>
+					<td><input type="number" id="number_DynamicLoadCapacity" value=34100></td>
+					<td>N</td>
+				</tr>
+				
+				<tr><td>Sphere Diameter</td>
+					<td><input type="number" id="number_SphereDiameter" value=29></td>
+					<td>mm</td>
+				</tr>
+			</table id="parameter_numerical">
+			
+			<br>
+			
+			<h4>Application Details</h4>
+			<table id="parameter_application">
+				<tr>
+					<th>Parameter</th>
+					<th>Value</th>
+					<th>Units</th>
+				</tr>
+				
+				<tr><td>Radial Force</td>
+					<td><input type="number" id="number_RadialForce" value=7138.19></td>
+					<td>N</td>
+				</tr>
+				
+				<tr><td>Axial Force</td>
+					<td><input type="number" id="number_AxialForce" value=788.22></td>
+					<td>N</td>
+				</tr>
+				
+				<tr><td>Temperature</td>
+					<td><input type="number" id="number_Temperature" value=70></td>
+					<td>C</td>
+				</tr>
+				<tr><td>Oscillation Frequency</td>
+					<td><input type="number" id="number_OscillationFrequency" value=0.05882></td>
+					<td>min^-1</td>
+				</tr>
+				<tr><td>Oscillation Angle, ß</td>
+					<td><input type="number" id="number_OscillationAngle" value=90></td>
+					<td>degrees</td>
+				</tr>
+			</table id="parameter_numerical">
+			<img src="resources/oscillation_angle.png">
+		
+		</section id="section_input">
+		
+		<hr>
+		
+		<section id="section_calculation">
+		
+			<h2>Calculations</h2>
+			
+			<section id="section_TemperatureFactor">
+				<h3>Temperature Factor = <input type="number" id="ft_TemperatureFactor" value=0 disabled></h3>
+				<img src="resources/temperature_factor.png">
+				<table>
+					<tr>
+						<td>Bushing Type: </td>
+						<td><input id="ft_BushingType" value="" disabled></td>
+					</tr>
+					<tr>
+						<td>Application Temperature: </td>
+						<td><input type="number" id="ft_Temperature" value=0 disabled></td>
+					</tr>
+					<tr>
+						<td>Seals: </td>
+						<td><input id="ft_Seals" value=false disabled></td>
+					</tr>
+				</table>
+			</section id="section_TemperatureFactor">
+			
+			<br>
+			
+			<section id="section_AxialLoadFactor">
+				<h3>Axial Load Factor = <input id="Y_AxialLoadFactor" value=0 disabled></h3>
+				<img src="resources/axial_load_factor.png">
+				<table>
+					<tr>
+						<td>Axial Load, Fa: </td>
+						<td><input id="Y_AxialLoad" type="number" value=1 disabled></td>
+					</tr>
+					<tr>
+						<td>Radial Load, Fr: </td>
+						<td><input id="Y_RadialLoad" type="number" value=1 disabled></td>
+					</tr>
+					<tr>
+						<td>Fa / Fr = </td>
+						<td><input id="Y_FaOverFr" type="number" value=1 disabled></td>
+					</tr>
+				</table>
+			</section id="section_AxialLoadFactor">
+			
+			<br>
+			
+			<section id="section_LoadDirectionalFactor">
+				<h3>Load Direction Factor = <input id="Cd_d" type="number" value=0 disabled></h3>
+				<img src="resources/load_directional_factor.png">
+			</section id="section_LoadDirectionalFactor">
+			
+			<br>
+			
+			<section id="section_LubricationFactor">
+				<h3>Lubrication Factor = <input id="b2_Lubrication" type="number" value=0 disabled></h3>
+				<img src="resources/lubrication_factor.png">
+			</section id="section_LoadDirectionalFactor">
+			
+			<hr>
+			
+			<section id="section_ContactPressure">
+				<h3>Contact Pressure = <input id="p_ContactPressure" type="number" value=0 disabled> N/mm^2</h3>
+				<img src="resources/contact_pressure.png">
+				<table>
+					<tr>
+						<td>Equivalent Radial Load, P: </td>
+						<td><input type="number" id="p_P" type="number" value=0 disabled></td>
+					</tr>
+					<tr>
+						<td>Dynamic Load Capacity, considering Temperature Factor, Cdt: </td>
+						<td><input type="number" id="p_Cdt" type="number" value=0 disabled></td>
+					</tr>
+				</table>
+			</section id="section_ContactPressure">
+			
+			<hr>
+			
+			<section id="section_TotalSlidingDistance">
+				<h3>Total Sliding Distance = <input type ="number" id="S_TotalSlidingDistance" type="number" value=175000 > m</h3>
+				<p>Please use the below graph to select the total sliding distance based on the contact pressure value above! (X-axis is *10^3 !)</p>
+				<img src="resources/total_sliding_distance.png">
+			</section id="section_TotalSlidingDistance">
+			
+			<hr>
+			
+			<section id="section_SlidingVeloctiy">
+				<h3>Sliding Velocity = <input id="V_SlidingVelocity" type="number" value=0 disabled> mm/s</h3>
+				<img src="resources/sliding_velocity.png">
+			</section id="section_SlidingVeloctiy">
+			
+			<section id="section_SlidingVeloctiyFactor">
+				<h3>Sliding Velocity Factor = <input id="V_SlidingVelocityFactor" type="number" value=0.1> </h3>
+				<p>From the figure below, please enter the appropriate sliding velocity factor.</p>
+				<img src="resources/sliding_velocity_factor.png">
+			</section id="section_SlidingVeloctiyFactor">
+			
+		</section id="section_calculation">
+		
+		<hr>
+		
+		<section id="section_result">
+		
+			<h2>Results</h2>
+			<p id="output_error"></p>
+			<h3>Life Expectency</h3>
+			<table>
+				<tr><td>Oscillations </td>
+					<td><input id="result_oscillations" type="number" value=0 disabled></td>
+				</tr>
+				<tr><td>Hours </td>
+					<td><input id="result_hours" type="number" value=0 disabled></td>
+				</tr>
+			</table>
+		
+		</section id="section_result">
+		
+		<br>
+	
+		<script>
+			var list_of_elements_which_causes_the_page_to_recalculate_the_results_when_they_are_changed = ["radio_BushingType_steel","radio_BushingType_maint","radio_LoadDirection_constant","radio_LoadDirection_alternate","radio_Lubrication_regular","radio_Lubrication_none","checkbox_Seals","number_DynamicLoadCapacity","number_SphereDiameter","number_RadialForce","number_AxialForce","number_OscillationAngle","number_Temperature","S_TotalSlidingDistance","V_SlidingVelocityFactor"];
+			
+			var BushingType = "Steel-on-Steel";
+			var LoadDirection = "Constant";
+			var Lubrication = "Regular";
+			var Sealed = false;
+			var DynamicLoadCapacity = 0;
+			var SphereDiameter = 0;
+			var RadialForce = 0;
+			var AxialForce = 0;
+			var OscillationAngle = 0;
+			var Temperature = 0;
+			var Output_Error = "";
+			var TemperatureFactor = 0;
+			var AxialLoadFactor = 0;
+			var LoadDirectionFactor = 0;
+			var EquivalentRadialLoad = 0;
+			var DynamicLoadCapacityConsideringTemperature = 0;
+			var ContactPressure = 0;
+			var OscillationFrequency = 0;
+			var SlidingVelocity = 0;
+			var LubricationFactor = 0;
+			var SlidingVelocityFactor = 0;
+			
+			var LifeOscillations = 0;
+			var LifeHours = 0;
+			
+			function onDocumentLoad(){
+				runCalculations();
+				
+				list_of_elements_which_causes_the_page_to_recalculate_the_results_when_they_are_changed.map(
+					element => document.getElementById(element).addEventListener("change", runCalculations)
+				);
+					
+			} // end function onDocumentLoad()
+		
+			function runCalculations(){
+			
+				// reset the output
+				Output_Error = "";
+			
+				// read document and update variables. while loops get the selected radio buttons from each group. rest of variables are read directly from their textboxes.
+				let iterator = 0;
+				let Options = document.getElementsByName("radio_BushingType");
+				while(iterator < Options.length){
+					if(Options[iterator].checked){
+						BushingType = Options[iterator].value;
+					}
+					iterator = iterator + 1;
+				}
+				
+				iterator = 0;
+				Options = document.getElementsByName("radio_LoadDirection")
+				while(iterator < Options.length){
+					if(Options[iterator].checked){
+						LoadDirection = Options[iterator].value;
+					}
+					iterator = iterator + 1;
+				}
+				
+				iterator = 0;
+				Options = document.getElementsByName("radio_Lubrication")
+				while(iterator < Options.length){
+					if(Options[iterator].checked){
+						Lubrication = Options[iterator].value;
+					}
+					iterator = iterator + 1;
+				}
+				
+				Sealed = document.getElementById("checkbox_Seals").checked;
+				
+				DynamicLoadCapacity = parseFloat(document.getElementById("number_DynamicLoadCapacity").value);
+				SphereDiameter = parseFloat(document.getElementById("number_SphereDiameter").value);
+				RadialForce = parseFloat(document.getElementById("number_RadialForce").value);
+				AxialForce = parseFloat(document.getElementById("number_AxialForce").value);
+				OscillationFrequency = parseFloat(document.getElementById("number_OscillationFrequency").value);
+				OscillationAngle = parseFloat(document.getElementById("number_OscillationAngle").value);
+				Temperature = parseFloat(document.getElementById("number_Temperature").value);
+				TotalSlidingDistance = parseFloat(document.getElementById("S_TotalSlidingDistance").value);
+				SlidingVelocityFactor = parseFloat(document.getElementById("V_SlidingVelocityFactor").value);
+
+				// Calculate factors
+				getTemperatureFactor();
+				getAxialLoadFactor();
+				getLoadDirectionFactor();
+				getLubricationFactor();
+				
+				
+				// Calculate values
+				calculateContactPressure();
+				calculateSlidingVelocity();
+				
+				// calculate and display results. each method here updates LifeOscillations and LifeHours vars
+				if(BushingType == "Steel-on-Steel"){ calculateLifeSteel(); }
+				else if(BushingType == "Maintenance-Free"){ calculateLifeMaint(); }
+				
+				document.getElementById("result_oscillations").value = LifeOscillations;
+				document.getElementById("result_hours").value = LifeHours;
+				
+				// report errors
+				document.getElementById("output_error").innerText = Output_Error == "" ? "No errors." : Output_Error;
+				
+			} // end function readDocumentInputs()
+			
+			///////////////////////////
+			// calculation functions //
+			///////////////////////////
+			
+			function getTemperatureFactor(){
+				document.getElementById("ft_BushingType").value = BushingType;
+				document.getElementById("ft_Temperature").value = Temperature;
+				document.getElementById("ft_Seals").value = Sealed;
+				
+				TemperatureFactor = 0;
+				
+				if(Temperature >= 180){
+					Output_Error = Output_Error + "\nTemperature Factor: No data available for temperatures above 180 C.";
+				}
+				else if(Temperature < -30){
+					Output_Error = Output_Error + "\nTemperature Factor: No data available for temperatures below -30 C.";
+				}
+				else if(Sealed && Temperature >= 80){
+					Output_Error = Output_Error + "\nTemperature Factor: No data available for sealed bearings at temperatures above 80 C.";
+				}
+				else if(BushingType == "Maintenance-Free" && Temperature >= 150){
+					Output_Error = Output_Error + "\nTemperature Factor: No data available for Maintenance-Free bearings with temperatures at or above 150 C.";
+				}
+				else if(BushingType == "Steel-on-Steel" && Temperature >= 150){ TemperatureFactor = 0.7;	}
+				else if(BushingType == "Maintenance-Free" && Temperature >=120){ TemperatureFactor = 0.55; }
+				else if(BushingType == "Maintenance-Free" && Temperature >=100){ TemperatureFactor = 0.75; }
+				else if(BushingType == "Maintenance-Free" && Temperature >=90){ TemperatureFactor = 0.9; }
+				else { TemperatureFactor = 1; }
+				
+				document.getElementById("ft_TemperatureFactor").value = TemperatureFactor;
+			} // end function getDirectionFactor
+			
+			function getAxialLoadFactor(){
+				document.getElementById("Y_AxialLoad").value = AxialForce;
+				document.getElementById("Y_RadialLoad").value = RadialForce;
+				
+				let Fa_over_Fr = (RadialForce == 0) ? 0 : AxialForce / RadialForce;
+				Fa_over_Fr = Math.sqrt(Fa_over_Fr * Fa_over_Fr);
+				document.getElementById("Y_FaOverFr").value = Math.sqrt(Fa_over_Fr * Fa_over_Fr);
+				
+				AxialLoadFactor = 0;
+				
+				if(Fa_over_Fr > 0.5){
+					Output_Error = Output_Error + "\nAxial Load Factor: Unusable conditions when Fa/Fr exceeds 0.5";
+				}
+				else if(BushingType == "Maintenance-Free" && Fa_over_Fr > 0.3){
+					Output_Error = Output_Error + "\nAxial Load Factor: Unusable conditions when bushing is Maintenance-Free and Fa/Fr exceeds 0.3";
+				}
+				else { AxialLoadFactor = Fa_over_Fr * 10; }
+				
+				document.getElementById("Y_AxialLoadFactor").value = AxialLoadFactor;
+			}
+			
+			function getLoadDirectionFactor(){
+				if(BushingType == "Steel-on-Steel"){
+					if(LoadDirection == "Constant"){ LoadDirectionFactor = 1; }
+					else if(LoadDirection == "Alternate"){ LoadDirectionFactor = 5; }
+				}
+				else if(BushingType == "Maintenance-Free"){
+					if(LoadDirection == "Constant"){ LoadDirectionFactor = 1; }
+					else if(LoadDirection == "Alternate"){ LoadDirectionFactor = 0.2; }
+				}
+				document.getElementById("Cd_d").value = LoadDirectionFactor;
+			}
+			
+			function getLubricationFactor(){
+				LubricationFactor = 0;
+				if(Lubrication == "None"){ LubricationFactor = 1; }
+				else if(Lubrication == "Regular"){ LubricationFactor = 15; }
+				document.getElementById("b2_Lubrication").value = LubricationFactor;
+			}
+			
+			function geHuh(){
+				LoadDirectionFactor = 0;
+				
+				if(BushingType == "Steel-on-Steel"){
+					if(LoadDirection == "Constant"){ LoadDirectionFactor = 0.3; }
+					else if(LoadDirection == "Alternate"){ LoadDirectionFactor = 0.6; }
+				}
+				else if(BushingType == "Maintenance-Free"){
+					if(LoadDirection == "Constant"){ LoadDirectionFactor = 1; }
+					else if(LoadDirection == "Alternate"){ LoadDirectionFactor = 0.5; }
+				}
+			
+				document.getElementById("Cd_d").value = LoadDirectionFactor;
+			}
+			
+			function calculateContactPressure(){
+				EquivalentRadialLoad = RadialForce + AxialLoadFactor * AxialForce;
+				document.getElementById("p_P").value = EquivalentRadialLoad;
+				
+				DynamicLoadCapacityConsideringTemperature = DynamicLoadCapacity * TemperatureFactor;
+				document.getElementById("p_Cdt").value = DynamicLoadCapacityConsideringTemperature;
+				
+				ContactPressure = 100 * EquivalentRadialLoad / DynamicLoadCapacityConsideringTemperature;
+				document.getElementById("p_ContactPressure").value = ContactPressure;
+			}
+			
+			function calculateSlidingVelocity(){
+				if(OscillationAngle < 5){ OscillationAngle = 5; }
+				else if(OscillationAngle >= 360){ OscillationAngle = 90; }
+				SlidingVelocity = 5.82 * 0.0001 * SphereDiameter * OscillationAngle * OscillationFrequency;
+				document.getElementById("V_SlidingVelocity").value = SlidingVelocity;
+			}
+			
+			function calculateLifeSteel(){
+				LifeOscillations = 3.18 * LoadDirectionFactor * LubricationFactor * SlidingVelocityFactor / Math.sqrt(SphereDiameter * OscillationAngle) * Math.pow(DynamicLoadCapacityConsideringTemperature / EquivalentRadialLoad, 2) * 100000;
+				LifeHours = LifeOscillations / (60 * OscillationFrequency);
+			}
+			
+			function calculateLifeMaint(){
+				LifeOscillations = 16.67 * LoadDirectionFactor * TotalSlidingDistance * OscillationFrequency / SlidingVelocity;
+				LifeHours = LifeOscillations / (60 * OscillationFrequency);
+			}
+			
+		</script>
+	</body>
+</html>
